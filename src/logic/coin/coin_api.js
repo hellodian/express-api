@@ -1,17 +1,15 @@
 const sqlhelper = require('../../comman/sqlhelper');
 const web3 = require('../../comman/web3helper').getWeb3();
 
-// 专门处理ether转账
 
 module.exports = {
-    // 转ether (6,7,10)
-    tranCoin: (fromid,toid,count,callback) => {
-        // 转账代码
+    //转币
+    transCoin: (fromid, toid, count, callback) =>{
         findOneUser(fromid,(error,fuser) => {
             findOneUser(toid, async (error,tuser) => {
                 // 交易账单
                 let form = fuser.ethaddress;
-                let formkey = fuser.ethkey;
+                let formkey = fuser.ethkey
                 let value = web3.utils.toWei(`${count}`,'ether');
                 let txParms = {
                     from: form,
@@ -45,19 +43,19 @@ module.exports = {
                     if(confirmationNumber === 12){
                         callback(null, receipt);
                     }
-                })
+                 })
                 .on('error', function(error){
-                    callback(error);
+                     callback(error);
                 }); 
             })
         })
     },
-    // 转差价
-    tranRemainCoin: (fromid,count,callback) => {
+    //交易差价转账
+    tranRemainCoinTo:(fromid, count, callback) => {
         findOneUser(fromid, async (error,fuser) => {
             // 交易账单
             let form = fuser.ethaddress;
-            let formkey = fuser.ethkey;
+            let formkey = fuser.ethkey
             let value = web3.utils.toWei(`${count}`,'ether');
             let txParms = {
                 from: form,
@@ -91,17 +89,16 @@ module.exports = {
                 if(confirmationNumber === 12){
                     callback(null, receipt);
                 }
-            })
+             })
             .on('error', function(error){
-                callback(error);
+                 callback(error);
             }); 
         })
     }
 }
 
-// 查找一个user
 let findOneUser = (userid,callback) => {
-    let sql =  'select * from user where id = ?';
+    let sql = 'select * from user where id = ?';
     sqlhelper.query_objc(sql,[userid],(error,data) => {
         callback(error,data[0]);
     })

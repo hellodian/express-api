@@ -84,14 +84,8 @@ router.post('/buycoin', (req,res) => {
 // 然后转账(1的10个Ehter => 2, 2的1000MT转给1)
 // 中间商赚差价(把剩下的币转到中间商的账户)
 
-
-// 目的 => 卖出或者买入代币(收获或者付出ether)
-// 只有代币的数量匹配才能够交易
-
-// 1000 MT  A 要 400MT  B 要600MT => 拆单
-
-router.post('/addorder', (req, res) => {
-    user_api.addOrder(req.body,(error,data)=>{
+router.post('/addorder',(req,res) => {
+    user_api.addOrder(req.body,(error, data) => {
         if(error){
             res.send(fail(error));
         }else{
@@ -100,9 +94,8 @@ router.post('/addorder', (req, res) => {
     })
 })
 
-// 获取个人账单
-router.get('/orders', (req,res) => {
-    user_api.getMyOrder(req.query, (error,data) => {
+router.get('/getmyorder',(req,res) => {
+    user_api.getMyOrders(req.query,(error,data)=>{
         if(error){
             res.send(fail(error));
         }else{
